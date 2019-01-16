@@ -33,7 +33,7 @@ func (t Time) MarshalJSON() ([]byte, error) {
 
 	b := make([]byte, 0, len(time.RFC3339)+2)
 	b = append(b, '"')
-	b = t.AppendFormat(b, time.RFC3339)
+	b = t.In(time.UTC).AppendFormat(b, time.RFC3339)
 	b = append(b, '"')
 	return b, nil
 }
