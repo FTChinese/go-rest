@@ -4,37 +4,56 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"time"
 )
 
+// Cycle is an enum for billing cycles.
+type Cycle int
+
+const InvalidCycle Cycle = -1
+
+// Supported billing cycles
 const (
-	cycleZero = ""
-	month     = "month"
-	year      = "year"
+	CycleMonth Cycle = iota
+	CycleYear
 )
 
-var cyclesRaw = [...]string{
-	cycleZero,
-	month,
-	year,
+var cycleNames = [...]string{
+	"month",
+	"year",
 }
 
 // Chinese translation
 var cyclesCN = [...]string{
-	"",
 	"月",
 	"年",
 }
 
 // English translation
 var cyclesEN = [...]string{
-	"",
 	"Month",
 	"Year",
 }
 
-// Cycle is an enum for billing cycles.
-type Cycle int
+var cycleMap = map[Cycle]string{
+	0: cycleNames[0],
+	1: cycleNames[1],
+}
+
+var cycleValue = map[string]Cycle{
+	cycleNames[0]: 0,
+	cycleNames[1]: 1,
+}
+
+// ParseCycle parses a string into Cycle type.
+func ParseCycle(name string) (Cycle, error) {
+	if x, ok := cycleValue[name]; ok {
+		return x, nil
+	}
+
+	return InvalidCycle, fmt.Errorf("%s is not a valid Cycle", name)
+}
 
 // TimeAfterACycle adds one cycle to a time instance and returns the new time.
 func (c Cycle) TimeAfterACycle(t time.Time) (time.Time, error) {
@@ -48,6 +67,32 @@ func (c Cycle) TimeAfterACycle(t time.Time) (time.Time, error) {
 	}
 }
 
+func (c Cycle) String() string {
+	if s, ok := cycleMap[c]; ok {
+		return s
+	}
+
+	return ""
+}
+
+// ToCN output cycle as Chinese text
+func (c Cycle) StringCN() string {
+	if c < CycleMonth || c > CycleYear {
+		return ""
+	}
+
+	return cyclesCN[c]
+}
+
+// ToEN output cycle as English text
+func (c Cycle) StringEN() string {
+	if c < CycleMonth || c > CycleYear {
+		return ""
+	}
+
+	return cyclesEN[c]
+}
+
 // UnmarshalJSON implements the Unmarshaler interface.
 func (c *Cycle) UnmarshalJSON(b []byte) error {
 	var s string
@@ -55,37 +100,42 @@ func (c *Cycle) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	cycle, err := NewCycle(s)
+	tmp, err := ParseCycle(s)
 
 	if err != nil {
 		return err
 	}
 
-	*c = cycle
+	*c = tmp
 
 	return nil
 }
 
-// MarshalJSON impeoments the Marshaler interface
+// MarshalJSON implements the Marshaler interface
 func (c Cycle) MarshalJSON() ([]byte, error) {
-	return json.Marshal(c.String())
+	s := c.String()
+	if s == "" {
+		return nil, nil
+	}
+
+	return []byte(`"` + s + `"`), nil
 }
 
 // Scan implements sql.Scanner interface to retrieve value from SQL.
 // SQL null will be turned into zero value CycleInvalid
 func (c *Cycle) Scan(src interface{}) error {
 	if src == nil {
-		*c = CycleInvalid
+		*c = InvalidCycle
 		return nil
 	}
 
 	switch s := src.(type) {
 	case []byte:
-		cycle, err := NewCycle(string(s))
+		tmp, err := ParseCycle(string(s))
 		if err != nil {
 			return err
 		}
-		*c = cycle
+		*c = tmp
 		return nil
 
 	default:
@@ -101,49 +151,4 @@ func (c Cycle) Value() (driver.Value, error) {
 	}
 
 	return s, nil
-}
-
-func (c Cycle) String() string {
-	if c < CycleMonth || c > CycleYear {
-		return ""
-	}
-
-	return cyclesRaw[c]
-}
-
-// ToCN output cycle as Chinese text
-func (c Cycle) ToCN() string {
-	if c < CycleMonth || c > CycleYear {
-		return ""
-	}
-
-	return cyclesCN[c]
-}
-
-// ToEN output cycle as English text
-func (c Cycle) ToEN() string {
-	if c < CycleMonth || c > CycleYear {
-		return ""
-	}
-
-	return cyclesEN[c]
-}
-
-// Supported billing cycles
-const (
-	CycleInvalid Cycle = 0
-	CycleMonth   Cycle = 1
-	CycleYear    Cycle = 2
-)
-
-// NewCycle creates a new instance of Cycle.
-func NewCycle(key string) (Cycle, error) {
-	switch key {
-	case year:
-		return CycleYear, nil
-	case month:
-		return CycleMonth, nil
-	default:
-		return CycleInvalid, errors.New("Only year and month billing cycle allowed")
-	}
 }
