@@ -3,30 +3,50 @@ package enum
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 )
-
-// Gender values.
-const (
-	GenderZero   Gender = 0
-	GenderFemale Gender = 1
-	GenderMale   Gender = 2
-)
-
-var gendersRaw = [...]string{
-	"",
-	"F",
-	"M",
-}
 
 // Gender is an enum for gender.
 type Gender int
 
-func (g Gender) String() string {
-	if g < GenderFemale || g > GenderMale {
-		return ""
+const InvalidGender Gender = -1
+
+// Gender values.
+const (
+	GenderFemale Gender = iota
+	GenderMale
+)
+
+var genderNames = [...]string{
+	"F",
+	"M",
+}
+
+var genderMap = map[Gender]string{
+	0: genderNames[0],
+	1: genderNames[1],
+}
+
+var genderValue = map[string]Gender{
+	genderNames[0]: 0,
+	genderNames[1]: 1,
+}
+
+// ParseGender parsed a string into Gender type.
+func ParseGender(name string) (Gender, error) {
+	if x, ok := genderValue[name]; ok {
+		return x, nil
 	}
 
-	return gendersRaw[g]
+	return InvalidGender, fmt.Errorf("%s is not a valid Gender", name)
+}
+
+func (g Gender) String() string {
+	if s, ok := genderMap[g]; ok {
+		return s
+	}
+
+	return ""
 }
 
 // UnmarshalJSON implements the Unmarshaler interface.
@@ -36,26 +56,41 @@ func (g *Gender) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	*g = NewGender(s)
+	tmp, err := ParseGender(s)
+
+	if err != nil {
+		return err
+	}
+
+	*g = tmp
 
 	return nil
 }
 
 // MarshalJSON implmenets the Marshaler interface
 func (g Gender) MarshalJSON() ([]byte, error) {
-	return json.Marshal(g.String())
+	s := g.String()
+	if s == "" {
+		return nil, nil
+	}
+
+	return []byte(`"` + s + `"`), nil
 }
 
 // Scan implements sql.Scanner interface to retrieve enum value from SQL.
 func (g *Gender) Scan(src interface{}) error {
 	if src == nil {
-		*g = GenderZero
+		*g = InvalidGender
 		return nil
 	}
 
 	switch s := src.(type) {
 	case []byte:
-		*g = NewGender(string(s))
+		tmp, err := ParseGender(string(s))
+		if err != nil {
+			return err
+		}
+		*g = tmp
 		return nil
 	default:
 		return ErrIncompatible
@@ -70,16 +105,4 @@ func (g Gender) Value() (driver.Value, error) {
 	}
 
 	return s, nil
-}
-
-// NewGender converts a string into a Gender type.
-func NewGender(gender string) Gender {
-	switch gender {
-	case "F":
-		return GenderFemale
-	case "M":
-		return GenderMale
-	default:
-		return GenderZero
-	}
 }

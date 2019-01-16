@@ -3,68 +3,124 @@ package enum
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"fmt"
 )
 
+// Tier is an enum for membership tiers.
+type Tier int
+
+const InvalidTier Tier = -1
+
+// Values of MemberTier
 const (
-	tierFree = ""
-	standard = "standard"
-	premium  = "premium"
+	TierStandard Tier = iota
+	TierPremium
 )
 
-var tiersRaw = [...]string{
-	"",
-	standard,
-	premium,
+var tierNames = [...]string{
+	"standard",
+	"premium",
 }
 
 var tiersCN = [...]string{
-	"",
 	"标准会员",
 	"高级会员",
 }
 
 var tiersEN = [...]string{
-	"",
 	"Standard",
 	"Premium",
 }
 
-// Tier is an enum.
-type Tier int
+var tierMap = map[Tier]string{
+	0: tierNames[0],
+	1: tierNames[1],
+}
 
-// IsValid tests if t is one of TierStandard or TierPremium
-func (t Tier) IsValid() bool {
-	return t != TierFree
+var tierValue = map[string]Tier{
+	tierNames[0]: 0,
+	tierNames[1]: 1,
+}
+
+// ParseTier parses a string into Tier type.
+func ParseTier(name string) (Tier, error) {
+	if x, ok := tierValue[name]; ok {
+		return x, nil
+	}
+
+	return InvalidTier, fmt.Errorf("%s is not a valid Tier", name)
+}
+
+func (x Tier) String() string {
+	if s, ok := tierMap[x]; ok {
+		return s
+	}
+
+	return ""
+}
+
+// StringCN output tier as Chinese text
+func (x Tier) StringCN() string {
+	if x < TierStandard || x > TierPremium {
+		return ""
+	}
+
+	return tiersCN[x]
+}
+
+// ToEN output tier as English text
+func (x Tier) StringEN() string {
+	if x < TierStandard || x > TierPremium {
+		return ""
+	}
+
+	return tiersEN[x]
 }
 
 // UnmarshalJSON implements the Unmarshaler interface.
-func (t *Tier) UnmarshalJSON(b []byte) error {
+func (x *Tier) UnmarshalJSON(b []byte) error {
 	var s string
 	if err := json.Unmarshal(b, &s); err != nil {
 		return err
 	}
 
-	*t = NewTier(s)
+	tmp, err := ParseTier(s)
+
+	if err != nil {
+		return err
+	}
+
+	*x = tmp
 
 	return nil
 }
 
 // MarshalJSON implements the Marshaler interface
-func (t Tier) MarshalJSON() ([]byte, error) {
-	return json.Marshal(t.String())
+func (x Tier) MarshalJSON() ([]byte, error) {
+	s := x.String()
+
+	if s == "" {
+		return nil, nil
+	}
+
+	return []byte(`"` + s + `"`), nil
 }
 
 // Scan implements sql.Scanner interface to retrieve value from SQL.
 // SQL null will be turned into zero value TierFree.
-func (t *Tier) Scan(src interface{}) error {
+func (x *Tier) Scan(src interface{}) error {
 	if src == nil {
-		*t = TierFree
+		*x = InvalidTier
 		return nil
 	}
 
 	switch s := src.(type) {
 	case []byte:
-		*t = NewTier(string(s))
+		tmp, err := ParseTier(string(s))
+		if err != nil {
+			return err
+		}
+		*x = tmp
 		return nil
 
 	default:
@@ -73,56 +129,11 @@ func (t *Tier) Scan(src interface{}) error {
 }
 
 // Value implements driver.Valuer interface to save value into SQL.
-func (t Tier) Value() (driver.Value, error) {
-	s := t.String()
+func (x Tier) Value() (driver.Value, error) {
+	s := x.String()
 	if s == "" {
 		return nil, nil
 	}
 
 	return s, nil
-}
-
-func (t Tier) String() string {
-	if t < TierStandard || t > TierPremium {
-		return ""
-	}
-
-	return tiersRaw[t]
-}
-
-// ToCN output tier as Chinese text
-func (t Tier) ToCN() string {
-	if t < TierStandard || t > TierPremium {
-		return ""
-	}
-
-	return tiersCN[t]
-}
-
-// ToEN output tier as English text
-func (t Tier) ToEN() string {
-	if t < TierStandard || t > TierPremium {
-		return ""
-	}
-
-	return tiersEN[t]
-}
-
-// Values of MemberTier
-const (
-	TierFree     Tier = 0
-	TierStandard Tier = 1
-	TierPremium  Tier = 2
-)
-
-// NewTier converts a string into a MemberTier type.
-func NewTier(tier string) Tier {
-	switch tier {
-	case standard:
-		return TierStandard
-	case premium:
-		return TierPremium
-	default:
-		return TierFree
-	}
 }
