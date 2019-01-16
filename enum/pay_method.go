@@ -13,9 +13,9 @@ const InvalidPay PayMethod = -1
 
 // Supported payment methods
 const (
-	Alipay PayMethod = iota
-	Wxpay
-	Stripe
+	PayMethodAli PayMethod = iota
+	PayMethodWx
+	PayMethodStripe
 )
 
 var payMethodNames = [...]string{
@@ -27,13 +27,13 @@ var payMethodNames = [...]string{
 var payMethodCN = [...]string{
 	"支付宝",
 	"微信支付",
-	"Stripe",
+	"PayMethodStripe",
 }
 
 var payMethodEN = [...]string{
 	"Zhifubao",
 	"Wechat Pay",
-	"Stripe",
+	"PayMethodStripe",
 }
 
 var payMethodMap = map[PayMethod]string{
@@ -67,7 +67,7 @@ func (x PayMethod) String() string {
 
 // StringCN output cycle as Chinese text
 func (x PayMethod) StringCN() string {
-	if x < Alipay || x > Stripe {
+	if x < PayMethodAli || x > PayMethodStripe {
 		return ""
 	}
 
@@ -76,7 +76,7 @@ func (x PayMethod) StringCN() string {
 
 // StringEn output cycle as English text
 func (x PayMethod) StringEN() string {
-	if x < Alipay || x > Stripe {
+	if x < PayMethodAli || x > PayMethodStripe {
 		return ""
 	}
 

@@ -13,8 +13,8 @@ const InvalidLogin LoginMethod = -1
 
 // Allowed values for LoginMethod
 const (
-	EmailLogin LoginMethod = iota
-	WechatLogin
+	LoginMethodEmail LoginMethod = iota
+	LoginMethodWx
 )
 
 var loginMethodNames = [...]string{
