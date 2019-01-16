@@ -106,6 +106,16 @@ func NewUnprocessable(r *Reason) Response {
 	return resp
 }
 
+// NewTooManyRequests respond to rate limit.
+func NewTooManyRequests(msg string) Response {
+	r := NewResponse()
+
+	r.StatusCode = http.StatusTooManyRequests
+	r.Body = ClientError{Message: msg}
+
+	return r
+}
+
 // NewInternalError creates response for internal server error
 func NewInternalError(msg string) Response {
 
