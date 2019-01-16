@@ -1,4 +1,4 @@
-package go_rest
+package gorest
 
 import (
 	"github.com/FTChinese/go-rest/enum"
