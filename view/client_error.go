@@ -7,8 +7,8 @@ const (
 	CodeMissingField = "missing_field"
 	// CodeInvalid means the formatting of a field is invalid
 	CodeInvalid = "invalid"
-	// CodeAlreadyExsits means another resource has the same value as this field.
-	CodeAlreadyExsits = "already_exists"
+	// CodeAlreadyExists means another resource has the same value as this field.
+	CodeAlreadyExists = "already_exists"
 )
 
 // ClientError respond to 4xx http status.
