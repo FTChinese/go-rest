@@ -3,8 +3,6 @@ package view
 import (
 	"encoding/json"
 	"net/http"
-
-	log "github.com/sirupsen/logrus"
 )
 
 // Render responds to client request
@@ -37,7 +35,6 @@ func Render(w http.ResponseWriter, resp Response) {
 	err := enc.Encode(resp.Body)
 
 	if err != nil {
-		log.Printf("Render response error: %v\n", err)
 		return
 	}
 }
