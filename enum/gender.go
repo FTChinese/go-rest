@@ -9,27 +9,27 @@ import (
 // Gender is an enum for gender.
 type Gender int
 
-const InvalidGender Gender = -1
-
 // Gender values.
 const (
-	GenderFemale Gender = iota
+	InvalidGender Gender = iota
+	GenderFemale
 	GenderMale
 )
 
 var genderNames = [...]string{
+	"",
 	"F",
 	"M",
 }
 
 var genderMap = map[Gender]string{
-	0: genderNames[0],
 	1: genderNames[1],
+	2: genderNames[2],
 }
 
 var genderValue = map[string]Gender{
-	genderNames[0]: 0,
 	genderNames[1]: 1,
+	genderNames[2]: 2,
 }
 
 // ParseGender parsed a string into Gender type.

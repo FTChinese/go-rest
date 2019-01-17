@@ -8,28 +8,27 @@ import (
 // LoginMethod is an enumeration of login method.
 type LoginMethod int
 
-// InvalidLogin represents an unknown logoin method
-const InvalidLogin LoginMethod = -1
-
 // Allowed values for LoginMethod
 const (
-	LoginMethodEmail LoginMethod = iota
+	InvalidLogin LoginMethod = iota
+	LoginMethodEmail
 	LoginMethodWx
 )
 
 var loginMethodNames = [...]string{
+	"",
 	"email",
 	"wechat",
 }
 
 var loginMethodMap = map[LoginMethod]string{
-	0: loginMethodNames[0],
 	1: loginMethodNames[1],
+	2: loginMethodNames[2],
 }
 
 var loginMethodValue = map[string]LoginMethod{
-	loginMethodNames[0]: 0,
 	loginMethodNames[1]: 1,
+	loginMethodNames[2]: 2,
 }
 
 // ParseLoginMethod creates a new LoginMethod from a string: email or wechat.

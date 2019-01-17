@@ -9,43 +9,45 @@ import (
 // PayMethod is an enum for payment methods
 type PayMethod int
 
-const InvalidPay PayMethod = -1
-
 // Supported payment methods
 const (
-	PayMethodAli PayMethod = iota
+	InvalidPay PayMethod = iota
+	PayMethodAli
 	PayMethodWx
 	PayMethodStripe
 )
 
 var payMethodNames = [...]string{
+	"",
 	"alipay",
 	"tenpay",
 	"stripe",
 }
 
 var payMethodCN = [...]string{
+	"",
 	"支付宝",
 	"微信支付",
 	"PayMethodStripe",
 }
 
 var payMethodEN = [...]string{
+	"",
 	"Zhifubao",
 	"Wechat Pay",
 	"PayMethodStripe",
 }
 
 var payMethodMap = map[PayMethod]string{
-	0: payMethodNames[0],
 	1: payMethodNames[1],
 	2: payMethodNames[2],
+	3: payMethodNames[3],
 }
 
 var payMethodValue = map[string]PayMethod{
-	payMethodNames[0]: 0,
 	payMethodNames[1]: 1,
 	payMethodNames[2]: 2,
+	payMethodNames[3]: 3,
 }
 
 // ParsePayMethod parses a string into a PayMethod value.

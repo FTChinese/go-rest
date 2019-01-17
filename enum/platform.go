@@ -8,31 +8,31 @@ import (
 // ClientPlatform is used to record on which platoform user is visiting the API.
 type Platform int
 
-const InvalidPlatform Platform = -1
-
 // Allowed values for ClientPlatforms
 const (
-	PlatformWeb Platform = iota
+	InvalidPlatform Platform = iota
+	PlatformWeb
 	PlatformIOS
 	PlatformAndroid
 )
 
 var platformNames = [...]string{
+	"",
 	"web",
 	"ios",
 	"android",
 }
 
 var platformMap = map[Platform]string{
-	0: platformNames[0],
 	1: platformNames[1],
 	2: platformNames[2],
+	3: platformNames[3],
 }
 
 var platformValue = map[string]Platform{
-	platformNames[0]: 0,
 	platformNames[1]: 1,
 	platformNames[2]: 2,
+	platformNames[3]: 3,
 }
 
 // ParsePlatform parses a string into a Platform value.

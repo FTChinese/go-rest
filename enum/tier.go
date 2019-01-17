@@ -9,37 +9,39 @@ import (
 // Tier is an enum for membership tiers.
 type Tier int
 
-const InvalidTier Tier = -1
-
 // Values of MemberTier
 const (
-	TierStandard Tier = iota
+	InvalidTier Tier = iota
+	TierStandard
 	TierPremium
 )
 
 var tierNames = [...]string{
+	"",
 	"standard",
 	"premium",
 }
 
 var tiersCN = [...]string{
+	"",
 	"标准会员",
 	"高级会员",
 }
 
 var tiersEN = [...]string{
+	"",
 	"Standard",
 	"Premium",
 }
 
 var tierMap = map[Tier]string{
-	0: tierNames[0],
 	1: tierNames[1],
+	2: tierNames[2],
 }
 
 var tierValue = map[string]Tier{
-	tierNames[0]: 0,
 	tierNames[1]: 1,
+	tierNames[2]: 2,
 }
 
 // ParseTier parses a string into Tier type.

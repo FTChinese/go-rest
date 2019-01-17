@@ -11,39 +11,41 @@ import (
 // Cycle is an enum for billing cycles.
 type Cycle int
 
-const InvalidCycle Cycle = -1
-
 // Supported billing cycles
 const (
-	CycleMonth Cycle = iota
+	InvalidCycle Cycle = iota
+	CycleMonth
 	CycleYear
 )
 
 var cycleNames = [...]string{
+	"",
 	"month",
 	"year",
 }
 
 // Chinese translation
 var cyclesCN = [...]string{
+	"",
 	"月",
 	"年",
 }
 
 // English translation
 var cyclesEN = [...]string{
+	"",
 	"Month",
 	"Year",
 }
 
 var cycleMap = map[Cycle]string{
-	0: cycleNames[0],
 	1: cycleNames[1],
+	2: cycleNames[2],
 }
 
 var cycleValue = map[string]Cycle{
-	cycleNames[0]: 0,
 	cycleNames[1]: 1,
+	cycleNames[2]: 2,
 }
 
 // ParseCycle parses a string into Cycle type.
