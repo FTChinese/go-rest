@@ -71,7 +71,7 @@ func (g *Gender) UnmarshalJSON(b []byte) error {
 func (g Gender) MarshalJSON() ([]byte, error) {
 	s := g.String()
 	if s == "" {
-		return nil, nil
+		return []byte("null"), nil
 	}
 
 	return []byte(`"` + s + `"`), nil

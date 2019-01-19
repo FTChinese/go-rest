@@ -223,7 +223,7 @@ func TestTier_MarshalJSON(t *testing.T) {
 		{
 			name:    "Invalid",
 			x:       InvalidTier,
-			want:    nil,
+			want:    []byte("null"),
 			wantErr: false,
 		},
 	}

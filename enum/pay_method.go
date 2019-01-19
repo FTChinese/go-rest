@@ -108,7 +108,7 @@ func (x PayMethod) MarshalJSON() ([]byte, error) {
 	str := x.String()
 
 	if str == "" {
-		return nil, nil
+		return []byte("null"), nil
 	}
 
 	return []byte(`"` + str + `"`), nil

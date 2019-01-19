@@ -117,7 +117,7 @@ func (c *Cycle) UnmarshalJSON(b []byte) error {
 func (c Cycle) MarshalJSON() ([]byte, error) {
 	s := c.String()
 	if s == "" {
-		return nil, nil
+		return []byte("null"), nil
 	}
 
 	return []byte(`"` + s + `"`), nil
