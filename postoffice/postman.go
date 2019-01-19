@@ -10,7 +10,15 @@ type Postman struct {
 }
 
 // NewPostman creates a new instance of PostOffice
+// Deprecate.
 func NewPostman(host string, port int, user, pass string) Postman {
+	return Postman{
+		dialer: mail.NewDialer(host, port, user, pass),
+	}
+}
+
+// NewPostman creates a new instance of PostOffice
+func New(host string, port int, user, pass string) Postman {
 	return Postman{
 		dialer: mail.NewDialer(host, port, user, pass),
 	}
