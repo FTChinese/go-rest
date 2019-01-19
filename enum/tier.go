@@ -102,7 +102,7 @@ func (x Tier) MarshalJSON() ([]byte, error) {
 	s := x.String()
 
 	if s == "" {
-		return nil, nil
+		return []byte(`null`), nil
 	}
 
 	return []byte(`"` + s + `"`), nil

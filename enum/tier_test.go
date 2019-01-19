@@ -2,9 +2,29 @@ package enum
 
 import (
 	"database/sql/driver"
+	"encoding/json"
 	"reflect"
 	"testing"
 )
+
+func TestTierMarshal(t *testing.T) {
+	data := struct {
+		Invalid  Tier
+		Standard Tier
+		Premium  Tier
+	}{
+		Invalid:  InvalidTier,
+		Standard: TierStandard,
+		Premium:  TierPremium,
+	}
+
+	b, err := json.Marshal(data)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	t.Logf("%s", b)
+}
 
 func TestParseTier(t *testing.T) {
 	type args struct {
@@ -17,21 +37,21 @@ func TestParseTier(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Test Standard Tier",
-			args: args{"standard"},
-			want: TierStandard,
+			name:    "Test Standard Tier",
+			args:    args{"standard"},
+			want:    TierStandard,
 			wantErr: false,
 		},
 		{
-			name: "Test Premium Tier",
-			args: args{"premium"},
-			want: TierPremium,
+			name:    "Test Premium Tier",
+			args:    args{"premium"},
+			want:    TierPremium,
 			wantErr: false,
 		},
 		{
-			name: "Test Unknown Tier",
-			args: args{"advanced"},
-			want: InvalidTier,
+			name:    "Test Unknown Tier",
+			args:    args{"advanced"},
+			want:    InvalidTier,
 			wantErr: true,
 		},
 	}
@@ -57,17 +77,17 @@ func TestTier_String(t *testing.T) {
 	}{
 		{
 			name: "Standard Tier",
-			x: TierStandard,
+			x:    TierStandard,
 			want: "standard",
 		},
 		{
 			name: "Premium Tier",
-			x: TierPremium,
+			x:    TierPremium,
 			want: "premium",
 		},
 		{
 			name: "Invalid Tier",
-			x: InvalidTier,
+			x:    InvalidTier,
 			want: "",
 		},
 	}
@@ -88,17 +108,17 @@ func TestTier_StringCN(t *testing.T) {
 	}{
 		{
 			name: "Standard Tier",
-			x: TierStandard,
+			x:    TierStandard,
 			want: "标准会员",
 		},
 		{
 			name: "Premium Tier",
-			x: TierPremium,
+			x:    TierPremium,
 			want: "高级会员",
 		},
 		{
 			name: "Invalid Tier",
-			x: InvalidTier,
+			x:    InvalidTier,
 			want: "",
 		},
 	}
@@ -119,17 +139,17 @@ func TestTier_StringEN(t *testing.T) {
 	}{
 		{
 			name: "Standard Tier",
-			x: TierStandard,
+			x:    TierStandard,
 			want: "Standard",
 		},
 		{
 			name: "Premium Tier",
-			x: TierPremium,
+			x:    TierPremium,
 			want: "Premium",
 		},
 		{
 			name: "Invalid Tier",
-			x: InvalidTier,
+			x:    InvalidTier,
 			want: "",
 		},
 	}
@@ -154,21 +174,21 @@ func TestTier_UnmarshalJSON(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Standard Tier",
-			x: &tier,
-			args: args{[]byte(`"standard"`)},
+			name:    "Standard Tier",
+			x:       &tier,
+			args:    args{[]byte(`"standard"`)},
 			wantErr: false,
 		},
 		{
-			name: "Premium Tier",
-			x: &tier,
-			args: args{[]byte(`"premium"`)},
+			name:    "Premium Tier",
+			x:       &tier,
+			args:    args{[]byte(`"premium"`)},
 			wantErr: false,
 		},
 		{
-			name: "Invalid Tier",
-			x: &tier,
-			args: args{[]byte(`"invalid"`)},
+			name:    "Invalid Tier",
+			x:       &tier,
+			args:    args{[]byte(`"invalid"`)},
 			wantErr: true,
 		},
 	}
@@ -189,21 +209,21 @@ func TestTier_MarshalJSON(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Standard",
-			x: TierStandard,
-			want: []byte(`"standard"`),
+			name:    "Standard",
+			x:       TierStandard,
+			want:    []byte(`"standard"`),
 			wantErr: false,
 		},
 		{
-			name: "Premium",
-			x: TierPremium,
-			want: []byte(`"premium"`),
+			name:    "Premium",
+			x:       TierPremium,
+			want:    []byte(`"premium"`),
 			wantErr: false,
 		},
 		{
-			name: "Invalid",
-			x: InvalidTier,
-			want: nil,
+			name:    "Invalid",
+			x:       InvalidTier,
+			want:    nil,
 			wantErr: false,
 		},
 	}
@@ -233,27 +253,27 @@ func TestTier_Scan(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Standard",
-			x: &tier,
-			args: args{[]byte("standard")},
+			name:    "Standard",
+			x:       &tier,
+			args:    args{[]byte("standard")},
 			wantErr: false,
 		},
 		{
-			name: "Premium",
-			x: &tier,
-			args: args{[]byte("premium")},
+			name:    "Premium",
+			x:       &tier,
+			args:    args{[]byte("premium")},
 			wantErr: false,
 		},
 		{
-			name: "NULL",
-			x: &tier,
-			args: args{nil},
+			name:    "NULL",
+			x:       &tier,
+			args:    args{nil},
 			wantErr: false,
 		},
 		{
-			name: "Invalid",
-			x: &tier,
-			args: args{[]byte("invalid")},
+			name:    "Invalid",
+			x:       &tier,
+			args:    args{[]byte("invalid")},
 			wantErr: true,
 		},
 	}
@@ -274,21 +294,21 @@ func TestTier_Value(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Standard",
-			x: TierStandard,
-			want: "standard",
+			name:    "Standard",
+			x:       TierStandard,
+			want:    "standard",
 			wantErr: false,
 		},
 		{
-			name: "Premium",
-			x: TierPremium,
-			want: "premium",
+			name:    "Premium",
+			x:       TierPremium,
+			want:    "premium",
 			wantErr: false,
 		},
 		{
-			name: "null",
-			x: InvalidTier,
-			want: nil,
+			name:    "null",
+			x:       InvalidTier,
+			want:    nil,
 			wantErr: false,
 		},
 	}
