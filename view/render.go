@@ -2,6 +2,7 @@ package view
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -35,6 +36,7 @@ func Render(w http.ResponseWriter, resp Response) {
 	err := enc.Encode(resp.Body)
 
 	if err != nil {
+		log.Printf("%s\n", err)
 		return
 	}
 }
