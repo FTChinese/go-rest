@@ -4,6 +4,7 @@ import (
 	"github.com/FTChinese/go-rest/enum"
 	"github.com/tomasen/realip"
 	"net/http"
+	"strings"
 )
 
 // ClientApp records the header information of a request.
@@ -18,7 +19,7 @@ type ClientApp struct {
 func NewClientApp(req *http.Request) ClientApp {
 	c := ClientApp{}
 
-	c.ClientType, _ = enum.ParsePlatform(req.Header.Get("X-Client-Type"))
+	c.ClientType, _ = enum.ParsePlatform(strings.ToLower(req.Header.Get("X-Client-Type")))
 
 	c.Version = req.Header.Get("X-Client-Version")
 
