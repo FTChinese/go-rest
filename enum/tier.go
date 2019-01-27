@@ -70,7 +70,7 @@ func (x Tier) StringCN() string {
 	return tiersCN[x]
 }
 
-// ToEN output tier as English text
+// StringEN output tier as English text
 func (x Tier) StringEN() string {
 	if x < TierStandard || x > TierPremium {
 		return ""

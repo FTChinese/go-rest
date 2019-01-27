@@ -76,7 +76,7 @@ func (x PayMethod) StringCN() string {
 	return payMethodCN[x]
 }
 
-// StringEn output cycle as English text
+// StringEN output cycle as English text
 func (x PayMethod) StringEN() string {
 	if x < PayMethodAli || x > PayMethodStripe {
 		return ""

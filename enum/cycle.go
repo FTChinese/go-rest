@@ -77,7 +77,7 @@ func (c Cycle) String() string {
 	return ""
 }
 
-// ToCN output cycle as Chinese text
+// StringCN output cycle as Chinese text
 func (c Cycle) StringCN() string {
 	if c < CycleMonth || c > CycleYear {
 		return ""
@@ -86,7 +86,7 @@ func (c Cycle) StringCN() string {
 	return cyclesCN[c]
 }
 
-// ToEN output cycle as English text
+// StringEN output cycle as English text
 func (c Cycle) StringEN() string {
 	if c < CycleMonth || c > CycleYear {
 		return ""

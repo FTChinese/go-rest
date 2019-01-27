@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-// ClientPlatform is used to record on which platoform user is visiting the API.
+// Platform is used to record on which platoform user is visiting the API.
 type Platform int
 
 // Allowed values for ClientPlatforms
