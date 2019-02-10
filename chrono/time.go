@@ -28,7 +28,7 @@ func (t Time) MarshalJSON() ([]byte, error) {
 		return nil, errors.New("Time.MarshalJSON: year outside of range [0,9999]")
 	}
 	if t.IsZero() {
-		return nil, nil
+		return []byte("null"), nil
 	}
 
 	b := make([]byte, 0, len(time.RFC3339)+2)

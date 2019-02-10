@@ -77,9 +77,15 @@ func TestTime_MarshalJSON(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "Stringify",
+			name:    "Marshal Now",
 			fields:  fields{Time: now},
 			want:    []byte(`"` + now.In(time.UTC).Format(time.RFC3339) + `"`),
+			wantErr: false,
+		},
+		{
+			name: "Marshal Zero",
+			fields: fields{Time: time.Time{}},
+			want: []byte(`null`),
 			wantErr: false,
 		},
 	}
