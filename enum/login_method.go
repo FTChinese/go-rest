@@ -2,6 +2,7 @@ package enum
 
 import (
 	"database/sql/driver"
+	"encoding/json"
 	"fmt"
 )
 
@@ -48,6 +49,32 @@ func (x LoginMethod) String() string {
 	return ""
 }
 
+// UnmarshalJSON implements the Unmarshaler interface.
+func (x *LoginMethod) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err != nil {
+		return err
+	}
+
+	// Error should be ignored since any values not allowed should be turned into  InvalidLogin.
+	tmp, _ := ParseLoginMethod(s)
+
+	*x = tmp
+
+	return nil
+}
+
+// MarshalJSON implements the Marshaler interface
+func (x LoginMethod) MarshalJSON() ([]byte, error) {
+	s := x.String()
+
+	if s == "" {
+		return []byte("null"), nil
+	}
+
+	return []byte(`"` + s + `"`), nil
+}
+
 // Scan implements the Scanner interface
 func (x *LoginMethod) Scan(value interface{}) error {
 	var name string
@@ -61,11 +88,8 @@ func (x *LoginMethod) Scan(value interface{}) error {
 		return nil
 	}
 
-	tmp, err := ParseLoginMethod(name)
-
-	if err != nil {
-		return err
-	}
+	// Ignore error.
+	tmp, _ := ParseLoginMethod(name)
 
 	*x = tmp
 	return nil
