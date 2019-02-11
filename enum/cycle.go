@@ -102,11 +102,7 @@ func (c *Cycle) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	tmp, err := ParseCycle(s)
-
-	if err != nil {
-		return err
-	}
+	tmp, _ := ParseCycle(s)
 
 	*c = tmp
 
@@ -133,10 +129,7 @@ func (c *Cycle) Scan(src interface{}) error {
 
 	switch s := src.(type) {
 	case []byte:
-		tmp, err := ParseCycle(string(s))
-		if err != nil {
-			return err
-		}
+		tmp, _ := ParseCycle(string(s))
 		*c = tmp
 		return nil
 
