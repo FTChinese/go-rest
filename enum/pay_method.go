@@ -92,11 +92,7 @@ func (x *PayMethod) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	tmp, err := ParsePayMethod(s)
-
-	if err != nil {
-		return err
-	}
+	tmp, _ := ParsePayMethod(s)
 
 	*x = tmp
 
@@ -124,10 +120,7 @@ func (x *PayMethod) Scan(src interface{}) error {
 
 	switch s := src.(type) {
 	case []byte:
-		tmp, err := ParsePayMethod(string(s))
-		if err != nil {
-			return err
-		}
+		tmp, _ := ParsePayMethod(string(s))
 		*x = tmp
 		return nil
 
