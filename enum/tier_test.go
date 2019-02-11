@@ -3,28 +3,10 @@ package enum
 import (
 	"database/sql/driver"
 	"encoding/json"
+	"log"
 	"reflect"
 	"testing"
 )
-
-func TestTierMarshal(t *testing.T) {
-	data := struct {
-		Invalid  Tier
-		Standard Tier
-		Premium  Tier
-	}{
-		Invalid:  InvalidTier,
-		Standard: TierStandard,
-		Premium:  TierPremium,
-	}
-
-	b, err := json.Marshal(data)
-	if err != nil {
-		t.Error(err)
-		return
-	}
-	t.Logf("%s", b)
-}
 
 func TestParseTier(t *testing.T) {
 	type args struct {
@@ -163,39 +145,54 @@ func TestTier_StringEN(t *testing.T) {
 }
 
 func TestTier_UnmarshalJSON(t *testing.T) {
+	type fields struct {
+		Tier Tier `json:"tier"`
+	}
 	type args struct {
 		b []byte
 	}
-	var tier Tier
 	tests := []struct {
 		name    string
-		x       *Tier
 		args    args
+		want    fields
 		wantErr bool
 	}{
 		{
-			name:    "Standard Tier",
-			x:       &tier,
-			args:    args{[]byte(`"standard"`)},
+			name: "Standard Tier",
+			args: args{[]byte(`{"tier": "standard"}`)},
+			want: fields{
+				Tier: TierStandard,
+			},
 			wantErr: false,
 		},
 		{
-			name:    "Premium Tier",
-			x:       &tier,
-			args:    args{[]byte(`"premium"`)},
+			name: "Premium Tier",
+			args: args{[]byte(`{"tier": "premium"}`)},
+			want: fields{
+				Tier: TierPremium,
+			},
 			wantErr: false,
 		},
 		{
-			name:    "Invalid Tier",
-			x:       &tier,
-			args:    args{[]byte(`"invalid"`)},
-			wantErr: true,
+			name: "Invalid Tier",
+			args: args{[]byte(`{"tier": null}`)},
+			want: fields{
+				Tier: InvalidTier,
+			},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if err := tt.x.UnmarshalJSON(tt.args.b); (err != nil) != tt.wantErr {
+			var got fields
+			if err := json.Unmarshal(tt.args.b, &got); (err != nil) != tt.wantErr {
 				t.Errorf("Tier.UnmarshalJSON() error = %v, wantErr %v", err, tt.wantErr)
+			}
+
+			log.Printf("got %+v", got)
+
+			if !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Tier.UnmarshalJSON() = %v, want %v", got, tt.want)
 			}
 		})
 	}
