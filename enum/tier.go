@@ -86,11 +86,7 @@ func (x *Tier) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	tmp, err := ParseTier(s)
-
-	if err != nil {
-		return err
-	}
+	tmp, _ := ParseTier(s)
 
 	*x = tmp
 
@@ -118,10 +114,7 @@ func (x *Tier) Scan(src interface{}) error {
 
 	switch s := src.(type) {
 	case []byte:
-		tmp, err := ParseTier(string(s))
-		if err != nil {
-			return err
-		}
+		tmp, _ := ParseTier(string(s))
 		*x = tmp
 		return nil
 
