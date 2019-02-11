@@ -2,10 +2,11 @@ package enum
 
 import (
 	"database/sql/driver"
+	"encoding/json"
 	"fmt"
 )
 
-// Platform is used to record on which platoform user is visiting the API.
+// Platform is used to record on which platform user is visiting the API.
 type Platform int
 
 // Allowed values for ClientPlatforms
@@ -52,6 +53,31 @@ func (x Platform) String() string {
 	return ""
 }
 
+// UnmarshalJSON implements the Unmarshaler interface.
+func (x *Platform) UnmarshalJSON(b []byte) error {
+	var s string
+	if err := json.Unmarshal(b, &s); err != nil {
+		return err
+	}
+
+	tmp, _ := ParsePlatform(s)
+
+	*x = tmp
+
+	return nil
+}
+
+// MarshalJSON implements the Marshaler interface
+func (x Platform) MarshalJSON() ([]byte, error) {
+	s := x.String()
+
+	if s == "" {
+		return []byte("null"), nil
+	}
+
+	return []byte(`"` + s + `"`), nil
+}
+
 // Scan implements sql.Scanner interface to retrieve value from SQL.
 // SQL null will be turned into InvalidPlatform.
 func (x *Platform) Scan(src interface{}) error {
@@ -62,10 +88,7 @@ func (x *Platform) Scan(src interface{}) error {
 
 	switch s := src.(type) {
 	case []byte:
-		tmp, err := ParsePlatform(string(s))
-		if err != nil {
-			return err
-		}
+		tmp, _ := ParsePlatform(string(s))
 		*x = tmp
 		return nil
 
