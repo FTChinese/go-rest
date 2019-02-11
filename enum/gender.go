@@ -56,18 +56,14 @@ func (g *Gender) UnmarshalJSON(b []byte) error {
 		return err
 	}
 
-	tmp, err := ParseGender(s)
-
-	if err != nil {
-		return err
-	}
+	tmp, _ := ParseGender(s)
 
 	*g = tmp
 
 	return nil
 }
 
-// MarshalJSON implmenets the Marshaler interface
+// MarshalJSON implements the Marshaler interface
 func (g Gender) MarshalJSON() ([]byte, error) {
 	s := g.String()
 	if s == "" {
@@ -86,10 +82,7 @@ func (g *Gender) Scan(src interface{}) error {
 
 	switch s := src.(type) {
 	case []byte:
-		tmp, err := ParseGender(string(s))
-		if err != nil {
-			return err
-		}
+		tmp, _ := ParseGender(string(s))
 		*g = tmp
 		return nil
 	default:
