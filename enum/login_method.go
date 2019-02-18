@@ -14,22 +14,26 @@ const (
 	InvalidLogin LoginMethod = iota
 	LoginMethodEmail
 	LoginMethodWx
+	LoginMethodMobile
 )
 
 var loginMethodNames = [...]string{
 	"",
 	"email",
 	"wechat",
+	"mobile",
 }
 
 var loginMethodMap = map[LoginMethod]string{
 	1: loginMethodNames[1],
 	2: loginMethodNames[2],
+	3: loginMethodNames[3],
 }
 
 var loginMethodValue = map[string]LoginMethod{
 	loginMethodNames[1]: 1,
 	loginMethodNames[2]: 2,
+	loginMethodNames[3]: 3,
 }
 
 // ParseLoginMethod creates a new LoginMethod from a string: email or wechat.
