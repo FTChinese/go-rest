@@ -17,7 +17,7 @@ type Param struct {
 func NewParam(key, value string) Param {
 	return Param{
 		key: key,
-		value: value,
+		value: strings.TrimSpace(value),
 	}
 }
 
