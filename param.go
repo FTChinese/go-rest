@@ -13,6 +13,14 @@ type Param struct {
 	value string
 }
 
+// NewParam creates a new instance of Param.
+func NewParam(key, value string) Param {
+	return Param{
+		key: key,
+		value: value,
+	}
+}
+
 // GetQueryParam get a pair of query parameter from URL.
 func GetQueryParam(req *http.Request, key string) Param {
 	v := req.Form.Get(key)
