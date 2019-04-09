@@ -70,6 +70,22 @@ func NewUnauthorized(msg string) Response {
 	return r
 }
 
+// NewUnauthorizedBasic creates a new instance of Response for 401 Unauthorized with WWW-Authenticate header.
+func NewUnauthorizedBasic(r *Reason) Response {
+
+	resp := NewResponse()
+	resp.Header = http.Header{
+		"WWW-Authenticate": []string{"Basic"},
+	}
+	resp.StatusCode = http.StatusUnauthorized
+	resp.Body = ClientError{
+		Message: r.GetMessage(), 
+		Reason: r,
+	}
+
+	return resp
+}
+
 // NewForbidden creates response for 403
 func NewForbidden(msg string) Response {
 	r := NewResponse()
