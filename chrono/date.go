@@ -26,7 +26,6 @@ func (d Date) MarshalJSON() ([]byte, error) {
 		return []byte("null"), nil
 	}
 
-
 	b := make([]byte, 0, len(SQLDate)+2)
 	b = append(b, '"')
 	b = d.AppendFormat(b, SQLDate)
@@ -84,7 +83,7 @@ func (d Date) Value() (driver.Value, error) {
 // DateNow creates current time.
 func DateNow() Date {
 	return Date{
-		time.Now(),
+		time.Now().Truncate(24 * time.Hour),
 	}
 }
 
@@ -95,5 +94,5 @@ func DateZero() Date {
 
 // DateFrom creates a new Time wrapping time.Time.
 func DateFrom(t time.Time) Date {
-	return Date{t}
+	return Date{t.Truncate(24 * time.Hour)}
 }
