@@ -15,9 +15,14 @@ const (
 type ClientError struct {
 	Message string  `json:"message"`
 	Reason  *Reason `json:"error,omitempty"`
+	// Integrate Stripe errors
+	Type  string `json:"type,omitempty"`
+	Code  string `json:"code,omitempty"`
+	Param string `json:"param,omitempty"`
 }
 
 // Reason tells why its unprocessable.
+// Mostly used for validation errors.
 type Reason struct {
 	message string
 	Field   string `json:"field"`
@@ -27,6 +32,11 @@ type Reason struct {
 // NewReason creates a new instance of Reason
 func NewReason() *Reason {
 	return &Reason{message: "Validation failed"}
+}
+
+// NewInvalid creates a new instance of invalid reason.
+func NewInvalid(m string) *Reason {
+	return &Reason{message: m}
 }
 
 // SetMessage set the message to be carried away.
