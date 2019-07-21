@@ -16,9 +16,9 @@ type ClientError struct {
 	Message string  `json:"message"`
 	Reason  *Reason `json:"error,omitempty"`
 	// Integrate Stripe errors
-	Type  string `json:"type,omitempty"`
-	Code  string `json:"code,omitempty"`
-	Param string `json:"param,omitempty"`
+	Code  string `json:"code,omitempty"`  // For some errors that could be handled programmatically, a short string indicating the error code reported.
+	Param string `json:"param,omitempty"` // If the error is parameter-specific, the parameter related to the error. For example, you can use this to display a message near the correct form field.
+	Type  string `json:"type,omitempty"`  // The type of error returned. One of api_connection_error, api_error, authentication_error, card_error, idempotency_error, invalid_request_error, or rate_limit_error
 }
 
 // Reason tells why its unprocessable.
