@@ -6,7 +6,7 @@ import (
 )
 
 // Render responds to client request
-func Render(w http.ResponseWriter, resp Response) {
+func Render(w http.ResponseWriter, resp Response) error {
 	// Set response headers
 	for key, vals := range resp.Header {
 		for _, v := range vals {
@@ -22,7 +22,7 @@ func Render(w http.ResponseWriter, resp Response) {
 	// If there's no content body, or status code is 204, stop here.
 	if resp.Body == nil || resp.StatusCode == http.StatusNoContent {
 		w.WriteHeader(resp.StatusCode)
-		return
+		return nil
 	}
 
 	w.WriteHeader(resp.StatusCode)
@@ -32,9 +32,5 @@ func Render(w http.ResponseWriter, resp Response) {
 	enc.SetIndent("", "\t")
 
 	// Write data to w
-	err := enc.Encode(resp.Body)
-
-	if err != nil {
-		enc.Encode(NewInternalError(err.Error()))
-	}
+	return enc.Encode(resp.Body)
 }
