@@ -31,7 +31,7 @@ func Hex(len int) (string, error) {
 	return hex.EncodeToString(b[:]), nil
 }
 
-// RandomBase64 returns a base64 url encoded, unpadded string of random bytes.
+// Base64 returns a base64 url encoded, unpadded string of random bytes.
 // len is the length of bytes.
 // It should be the multiple of 3 to get a string without padding:
 // len * 8 / 6.
