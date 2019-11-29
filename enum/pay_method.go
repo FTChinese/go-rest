@@ -15,6 +15,7 @@ const (
 	PayMethodAli
 	PayMethodWx
 	PayMethodStripe
+	PayMethodApple
 )
 
 var payMethodNames = [...]string{
@@ -22,6 +23,7 @@ var payMethodNames = [...]string{
 	"alipay",
 	"wechat",
 	"stripe",
+	"apple",
 }
 
 var payMethodCN = [...]string{
@@ -29,6 +31,7 @@ var payMethodCN = [...]string{
 	"支付宝",
 	"微信支付",
 	"Stripe",
+	"Apple内购",
 }
 
 var payMethodEN = [...]string{
@@ -36,19 +39,22 @@ var payMethodEN = [...]string{
 	"Alipay",
 	"Wechat Pay",
 	"Stripe",
+	"Apple IAP",
 }
 
 var payMethodMap = map[PayMethod]string{
-	1: payMethodNames[1],
-	2: payMethodNames[2],
-	3: payMethodNames[3],
+	PayMethodAli:    payMethodNames[1],
+	PayMethodWx:     payMethodNames[2],
+	PayMethodStripe: payMethodNames[3],
+	PayMethodApple:  payMethodNames[4],
 }
 
 var payMethodValue = map[string]PayMethod{
-	payMethodNames[1]: 1,
-	payMethodNames[2]: 2,
-	payMethodNames[3]: 3,
-	"tenpay":          2,
+	payMethodNames[1]: PayMethodAli,
+	payMethodNames[2]: PayMethodWx,
+	payMethodNames[3]: PayMethodStripe,
+	payMethodNames[4]: PayMethodApple,
+	"tenpay":          PayMethodWx,
 }
 
 // ParsePayMethod parses a string into a PayMethod value.
