@@ -38,7 +38,7 @@ func TestParseLoginMethod(t *testing.T) {
 			args: args{
 				name: "unknown",
 			},
-			want:    InvalidLogin,
+			want:    LoginMethodNull,
 			wantErr: true,
 		},
 	}
@@ -95,7 +95,7 @@ func TestLoginMethod_UnmarshalJSON(t *testing.T) {
 				data: `{"loginMethod": "unknown"}`,
 			},
 			want: fields{
-				LoginMethod: InvalidLogin,
+				LoginMethod: LoginMethodNull,
 			},
 			wantErr: false,
 		},
@@ -132,15 +132,15 @@ func TestLoginMethod_MarshalJSON(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "Marshal LoginMethodEmail",
-			x: LoginMethodEmail,
-			want: []byte(`"email"`),
+			name:    "Marshal LoginMethodEmail",
+			x:       LoginMethodEmail,
+			want:    []byte(`"email"`),
 			wantErr: false,
 		},
 		{
-			name: "Marshal Invalid",
-			x: InvalidLogin,
-			want: []byte(`null`),
+			name:    "Marshal Invalid",
+			x:       LoginMethodNull,
+			want:    []byte(`null`),
 			wantErr: false,
 		},
 	}

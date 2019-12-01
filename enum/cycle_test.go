@@ -38,7 +38,7 @@ func TestParseCycle(t *testing.T) {
 			args: args{
 				name: `null`,
 			},
-			want:    InvalidCycle,
+			want:    CycleNull,
 			wantErr: true,
 		},
 	}
@@ -95,7 +95,7 @@ func TestCycle_UnmarshalJSON(t *testing.T) {
 				b: []byte(`{"cycle": null}`),
 			},
 			want: fields{
-				Cycle: InvalidCycle,
+				Cycle: CycleNull,
 			},
 			wantErr: false,
 		},
@@ -165,7 +165,7 @@ func TestCycle_Scan(t *testing.T) {
 		},
 		{
 			name:    "Scan Nil",
-			want:    InvalidCycle,
+			want:    CycleNull,
 			args:    args{src: nil},
 			wantErr: false,
 		},

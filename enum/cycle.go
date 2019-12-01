@@ -13,7 +13,7 @@ type Cycle int
 
 // Supported billing cycles
 const (
-	InvalidCycle Cycle = iota
+	CycleNull Cycle = iota
 	CycleMonth
 	CycleYear
 )
@@ -54,7 +54,7 @@ func ParseCycle(name string) (Cycle, error) {
 		return x, nil
 	}
 
-	return InvalidCycle, fmt.Errorf("%s is not a valid Cycle", name)
+	return CycleNull, fmt.Errorf("%s is not a valid Cycle", name)
 }
 
 // TimeAfterACycle adds one cycle to a time instance and returns the new time.
@@ -123,7 +123,7 @@ func (c Cycle) MarshalJSON() ([]byte, error) {
 // SQL null will be turned into zero value CycleInvalid
 func (c *Cycle) Scan(src interface{}) error {
 	if src == nil {
-		*c = InvalidCycle
+		*c = CycleNull
 		return nil
 	}
 

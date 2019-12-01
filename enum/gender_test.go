@@ -31,7 +31,7 @@ func TestParseGender(t *testing.T) {
 		{
 			name:    "Parse Null",
 			args:    args{name: `null`},
-			want:    InvalidGender,
+			want:    GenderNull,
 			wantErr: true,
 		},
 	}
@@ -88,7 +88,7 @@ func TestGender_UnmarshalJSON(t *testing.T) {
 				b: []byte(`{"gender": null}`),
 			},
 			want: fields{
-				Gender: InvalidGender,
+				Gender: GenderNull,
 			},
 			wantErr: false,
 		},

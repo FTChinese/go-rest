@@ -11,7 +11,7 @@ type Gender int
 
 // Gender values.
 const (
-	InvalidGender Gender = iota
+	GenderNull Gender = iota
 	GenderFemale
 	GenderMale
 )
@@ -38,7 +38,7 @@ func ParseGender(name string) (Gender, error) {
 		return x, nil
 	}
 
-	return InvalidGender, fmt.Errorf("%s is not a valid Gender", name)
+	return GenderNull, fmt.Errorf("%s is not a valid Gender", name)
 }
 
 func (g Gender) String() string {
@@ -76,7 +76,7 @@ func (g Gender) MarshalJSON() ([]byte, error) {
 // Scan implements sql.Scanner interface to retrieve enum value from SQL.
 func (g *Gender) Scan(src interface{}) error {
 	if src == nil {
-		*g = InvalidGender
+		*g = GenderNull
 		return nil
 	}
 

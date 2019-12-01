@@ -37,7 +37,7 @@ func TestParsePayMethod(t *testing.T) {
 		{
 			name:    "Parse Null",
 			args:    args{name: `null`},
-			want:    InvalidPay,
+			want:    PayMethodNull,
 			wantErr: true,
 		},
 	}
@@ -94,7 +94,7 @@ func TestPayMethod_UnmarshalJSON(t *testing.T) {
 				b: []byte(`{"payMethod": null}`),
 			},
 			want: fields{
-				PayMethod: InvalidPay,
+				PayMethod: PayMethodNull,
 			},
 			wantErr: false,
 		},
@@ -135,7 +135,7 @@ func TestPayMethod_MarshalJSON(t *testing.T) {
 		},
 		{
 			name:    "Marshal Null",
-			x:       InvalidPay,
+			x:       PayMethodNull,
 			want:    []byte(`null`),
 			wantErr: false,
 		},

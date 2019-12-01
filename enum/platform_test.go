@@ -37,7 +37,7 @@ func TestParsePlatform(t *testing.T) {
 		{
 			name:    "Parse Null",
 			args:    args{`null`},
-			want:    InvalidPlatform,
+			want:    PlatformNull,
 			wantErr: true,
 		},
 	}
@@ -89,7 +89,7 @@ func TestPlatform_UnmarshalJSON(t *testing.T) {
 		{
 			name:    "Unmarshal Null",
 			args:    args{b: []byte(`{"platform": null}`)},
-			want:    fields{Platform: InvalidPlatform},
+			want:    fields{Platform: PlatformNull},
 			wantErr: false,
 		},
 	}
@@ -115,27 +115,27 @@ func TestPlatform_MarshalJSON(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Marshal Android",
-			x: PlatformAndroid,
-			want: []byte(`"android"`),
+			name:    "Marshal Android",
+			x:       PlatformAndroid,
+			want:    []byte(`"android"`),
 			wantErr: false,
 		},
 		{
-			name: "Marshal iOS",
-			x: PlatformIOS,
-			want: []byte(`"ios"`),
+			name:    "Marshal iOS",
+			x:       PlatformIOS,
+			want:    []byte(`"ios"`),
 			wantErr: false,
 		},
 		{
-			name: "Marshal Web",
-			x: PlatformWeb,
-			want: []byte(`"web"`),
+			name:    "Marshal Web",
+			x:       PlatformWeb,
+			want:    []byte(`"web"`),
 			wantErr: false,
 		},
 		{
-			name: "Marshal Null",
-			x: InvalidPlatform,
-			want: []byte(`null`),
+			name:    "Marshal Null",
+			x:       PlatformNull,
+			want:    []byte(`null`),
 			wantErr: false,
 		},
 	}

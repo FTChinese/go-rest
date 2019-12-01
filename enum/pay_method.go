@@ -11,7 +11,7 @@ type PayMethod int
 
 // Supported payment methods
 const (
-	InvalidPay PayMethod = iota
+	PayMethodNull PayMethod = iota
 	PayMethodAli
 	PayMethodWx
 	PayMethodStripe
@@ -63,7 +63,7 @@ func ParsePayMethod(name string) (PayMethod, error) {
 		return x, nil
 	}
 
-	return InvalidPay, fmt.Errorf("%s is not a valid PayMethod", name)
+	return PayMethodNull, fmt.Errorf("%s is not a valid PayMethod", name)
 }
 
 func (x PayMethod) String() string {
@@ -121,7 +121,7 @@ func (x PayMethod) MarshalJSON() ([]byte, error) {
 // SQL null will be turned into zero value InvalidPay.
 func (x *PayMethod) Scan(src interface{}) error {
 	if src == nil {
-		*x = InvalidPay
+		*x = PayMethodNull
 		return nil
 	}
 

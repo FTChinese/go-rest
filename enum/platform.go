@@ -11,7 +11,7 @@ type Platform int
 
 // Allowed values for ClientPlatforms
 const (
-	InvalidPlatform Platform = iota
+	PlatformNull Platform = iota
 	PlatformWeb
 	PlatformIOS
 	PlatformAndroid
@@ -42,7 +42,7 @@ func ParsePlatform(name string) (Platform, error) {
 		return x, nil
 	}
 
-	return InvalidPlatform, fmt.Errorf("%s is not valid Platform", name)
+	return PlatformNull, fmt.Errorf("%s is not valid Platform", name)
 }
 
 func (x Platform) String() string {
@@ -82,7 +82,7 @@ func (x Platform) MarshalJSON() ([]byte, error) {
 // SQL null will be turned into InvalidPlatform.
 func (x *Platform) Scan(src interface{}) error {
 	if src == nil {
-		*x = InvalidPlatform
+		*x = PlatformNull
 		return nil
 	}
 

@@ -11,7 +11,7 @@ type Tier int
 
 // Values of MemberTier
 const (
-	InvalidTier Tier = iota
+	TierNull Tier = iota
 	TierStandard
 	TierPremium
 )
@@ -50,7 +50,7 @@ func ParseTier(name string) (Tier, error) {
 		return x, nil
 	}
 
-	return InvalidTier, fmt.Errorf("%s is not a valid Tier", name)
+	return TierNull, fmt.Errorf("%s is not a valid Tier", name)
 }
 
 func (x Tier) String() string {
@@ -108,7 +108,7 @@ func (x Tier) MarshalJSON() ([]byte, error) {
 // SQL null will be turned into zero value TierFree.
 func (x *Tier) Scan(src interface{}) error {
 	if src == nil {
-		*x = InvalidTier
+		*x = TierNull
 		return nil
 	}
 

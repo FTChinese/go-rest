@@ -11,7 +11,7 @@ type LoginMethod int
 
 // Allowed values for LoginMethod
 const (
-	InvalidLogin LoginMethod = iota
+	LoginMethodNull LoginMethod = iota
 	LoginMethodEmail
 	LoginMethodWx
 	LoginMethodMobile
@@ -42,7 +42,7 @@ func ParseLoginMethod(name string) (LoginMethod, error) {
 		return x, nil
 	}
 
-	return InvalidLogin, fmt.Errorf("%s is not a valid LoginMethod", name)
+	return LoginMethodNull, fmt.Errorf("%s is not a valid LoginMethod", name)
 }
 
 func (x LoginMethod) String() string {
@@ -88,7 +88,7 @@ func (x *LoginMethod) Scan(value interface{}) error {
 	case []byte:
 		name = string(v)
 	case nil:
-		*x = InvalidLogin
+		*x = LoginMethodNull
 		return nil
 	}
 
@@ -101,7 +101,7 @@ func (x *LoginMethod) Scan(value interface{}) error {
 
 // Value implements the Valuer interface.
 func (x LoginMethod) Value() (driver.Value, error) {
-	if x == InvalidLogin {
+	if x == LoginMethodNull {
 		return nil, nil
 	}
 

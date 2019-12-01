@@ -33,7 +33,7 @@ func TestParseTier(t *testing.T) {
 		{
 			name:    "Test Unknown Tier",
 			args:    args{"advanced"},
-			want:    InvalidTier,
+			want:    TierNull,
 			wantErr: true,
 		},
 	}
@@ -69,7 +69,7 @@ func TestTier_String(t *testing.T) {
 		},
 		{
 			name: "Invalid Tier",
-			x:    InvalidTier,
+			x:    TierNull,
 			want: "",
 		},
 	}
@@ -100,7 +100,7 @@ func TestTier_StringCN(t *testing.T) {
 		},
 		{
 			name: "Invalid Tier",
-			x:    InvalidTier,
+			x:    TierNull,
 			want: "",
 		},
 	}
@@ -131,7 +131,7 @@ func TestTier_StringEN(t *testing.T) {
 		},
 		{
 			name: "Invalid Tier",
-			x:    InvalidTier,
+			x:    TierNull,
 			want: "",
 		},
 	}
@@ -177,7 +177,7 @@ func TestTier_UnmarshalJSON(t *testing.T) {
 			name: "Invalid Tier",
 			args: args{[]byte(`{"tier": null}`)},
 			want: fields{
-				Tier: InvalidTier,
+				Tier: TierNull,
 			},
 			wantErr: false,
 		},
@@ -219,7 +219,7 @@ func TestTier_MarshalJSON(t *testing.T) {
 		},
 		{
 			name:    "Invalid",
-			x:       InvalidTier,
+			x:       TierNull,
 			want:    []byte("null"),
 			wantErr: false,
 		},
@@ -304,7 +304,7 @@ func TestTier_Value(t *testing.T) {
 		},
 		{
 			name:    "null",
-			x:       InvalidTier,
+			x:       TierNull,
 			want:    nil,
 			wantErr: false,
 		},
