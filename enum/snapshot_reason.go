@@ -7,6 +7,7 @@ import (
 	"fmt"
 )
 
+// SnapshotReason tells why we take a snapshot of reader's membership
 type SnapshotReason int
 
 const (
