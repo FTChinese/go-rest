@@ -17,6 +17,7 @@ const (
 	SnapshotReasonDelete
 	SnapshotReasonLink
 	SnapshotReasonUnlink
+	SnapshotReasonAppleIAP
 )
 
 var snapshotReasonNames = [...]string{
@@ -26,14 +27,16 @@ var snapshotReasonNames = [...]string{
 	"delete",
 	"link",
 	"unlink",
+	"apple_iap",
 }
 
 var snapshotReasonMap = map[SnapshotReason]string{
-	SnapshotReasonRenew:   snapshotReasonNames[1],
-	SnapshotReasonUpgrade: snapshotReasonNames[2],
-	SnapshotReasonDelete:  snapshotReasonNames[3],
-	SnapshotReasonLink:    snapshotReasonNames[4],
-	SnapshotReasonUnlink:  snapshotReasonNames[5],
+	SnapshotReasonRenew:    snapshotReasonNames[1],
+	SnapshotReasonUpgrade:  snapshotReasonNames[2],
+	SnapshotReasonDelete:   snapshotReasonNames[3],
+	SnapshotReasonLink:     snapshotReasonNames[4],
+	SnapshotReasonUnlink:   snapshotReasonNames[5],
+	SnapshotReasonAppleIAP: snapshotReasonNames[6],
 }
 
 var snapshotReasonValue = map[string]SnapshotReason{
@@ -42,6 +45,7 @@ var snapshotReasonValue = map[string]SnapshotReason{
 	snapshotReasonNames[3]: SnapshotReasonDelete,
 	snapshotReasonNames[4]: SnapshotReasonLink,
 	snapshotReasonNames[5]: SnapshotReasonUnlink,
+	snapshotReasonNames[6]: SnapshotReasonAppleIAP,
 }
 
 func ParseSnapshotReason(name string) (SnapshotReason, error) {
