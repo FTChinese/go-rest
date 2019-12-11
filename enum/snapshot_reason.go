@@ -29,8 +29,8 @@ var snapshotReasonNames = [...]string{
 	"delete",
 	"link",
 	"unlink",
-	"apple_iap_link",
-	"apple_iap_unlink",
+	"apple_link",
+	"apple_unlink",
 }
 
 var snapshotReasonMap = map[SnapshotReason]string{
