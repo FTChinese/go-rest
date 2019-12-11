@@ -10,14 +10,16 @@ import (
 // SnapshotReason tells why we take a snapshot of reader's membership
 type SnapshotReason int
 
+// Enum of SnapshotReason.
 const (
-	SnapshotReasonNull SnapshotReason = iota
-	SnapshotReasonRenew
-	SnapshotReasonUpgrade
-	SnapshotReasonDelete
-	SnapshotReasonLink
-	SnapshotReasonUnlink
-	SnapshotReasonAppleIAP
+	SnapshotReasonNull        SnapshotReason = iota // Unknow reason.
+	SnapshotReasonRenew                             // Backup before renewal
+	SnapshotReasonUpgrade                           // Backup before upgrading.
+	SnapshotReasonDelete                            // Backup before deletion.
+	SnapshotReasonLink                              // Link FTC account to wechat account.
+	SnapshotReasonUnlink                            // Unlink FTC account from wechat accout.
+	SnapshotReasonAppleLink                         // Link FTC account to Apple IAP.
+	SnapshotReasonAppleUnlink                       // Unlink FTC account from Apple IAP.
 )
 
 var snapshotReasonNames = [...]string{
@@ -27,16 +29,18 @@ var snapshotReasonNames = [...]string{
 	"delete",
 	"link",
 	"unlink",
-	"apple_iap",
+	"apple_iap_link",
+	"apple_iap_unlink",
 }
 
 var snapshotReasonMap = map[SnapshotReason]string{
-	SnapshotReasonRenew:    snapshotReasonNames[1],
-	SnapshotReasonUpgrade:  snapshotReasonNames[2],
-	SnapshotReasonDelete:   snapshotReasonNames[3],
-	SnapshotReasonLink:     snapshotReasonNames[4],
-	SnapshotReasonUnlink:   snapshotReasonNames[5],
-	SnapshotReasonAppleIAP: snapshotReasonNames[6],
+	SnapshotReasonRenew:       snapshotReasonNames[1],
+	SnapshotReasonUpgrade:     snapshotReasonNames[2],
+	SnapshotReasonDelete:      snapshotReasonNames[3],
+	SnapshotReasonLink:        snapshotReasonNames[4],
+	SnapshotReasonUnlink:      snapshotReasonNames[5],
+	SnapshotReasonAppleLink:   snapshotReasonNames[6],
+	SnapshotReasonAppleUnlink: snapshotReasonNames[7],
 }
 
 var snapshotReasonValue = map[string]SnapshotReason{
@@ -45,9 +49,11 @@ var snapshotReasonValue = map[string]SnapshotReason{
 	snapshotReasonNames[3]: SnapshotReasonDelete,
 	snapshotReasonNames[4]: SnapshotReasonLink,
 	snapshotReasonNames[5]: SnapshotReasonUnlink,
-	snapshotReasonNames[6]: SnapshotReasonAppleIAP,
+	snapshotReasonNames[6]: SnapshotReasonAppleLink,
+	snapshotReasonNames[7]: SnapshotReasonAppleUnlink,
 }
 
+// ParseSnapshotReason turns a string to an instance of SnapshotReason
 func ParseSnapshotReason(name string) (SnapshotReason, error) {
 	if x, ok := snapshotReasonValue[name]; ok {
 		return x, nil
