@@ -79,8 +79,8 @@ func NewUnauthorizedBasic(r *Reason) Response {
 	}
 	resp.StatusCode = http.StatusUnauthorized
 	resp.Body = ClientError{
-		Message: r.GetMessage(), 
-		Reason: r,
+		Message: r.GetMessage(),
+		Reason:  r,
 	}
 
 	return resp
@@ -113,7 +113,10 @@ func NewBadRequest(msg string) Response {
 // NewUnprocessable creates response 422 Unprocessable Entity
 func NewUnprocessable(r *Reason) Response {
 
-	c := ClientError{Message: r.GetMessage(), Reason: r}
+	c := ClientError{
+		Message: r.Message,
+		Reason:  r,
+	}
 
 	resp := NewResponse()
 	resp.StatusCode = http.StatusUnprocessableEntity

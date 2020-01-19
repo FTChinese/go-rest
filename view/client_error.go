@@ -24,7 +24,8 @@ type ClientError struct {
 // Reason tells why its unprocessable.
 // Mostly used for validation errors.
 type Reason struct {
-	message string
+	message string // Deprecated
+	Message string `json:"-"`
 	Field   string `json:"field"`
 	Code    string `json:"code"`
 }
