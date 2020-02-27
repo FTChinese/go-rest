@@ -22,7 +22,7 @@ const (
 
 // ValidationError tells the field that failed validation.
 type ValidationError struct {
-	Message string `json:"-`
+	Message string `json:"-"`
 	Field   string `json:"field"`
 	Code    string `json:"code"`
 }
@@ -31,7 +31,7 @@ func (e *ValidationError) Error() string {
 	return e.Message
 }
 
-// ResponseError is the reponse body for http code above 400.
+// ResponseError is the response body for http code above 400.
 type ResponseError struct {
 	StatusCode int              `json:"-"`
 	Message    string           `json:"message"`
@@ -42,8 +42,8 @@ func (re *ResponseError) Error() string {
 	return fmt.Sprintf("code=%d, message=%s", re.StatusCode, re.Message)
 }
 
-// NewReponseError creates a new ReponseError instance.
-func NewReponseError(code int, msg string) *ResponseError {
+// NewResponseError creates a new ResponseError instance.
+func NewResponseError(code int, msg string) *ResponseError {
 	return &ResponseError{
 		StatusCode: code,
 		Message:    msg,
@@ -52,7 +52,7 @@ func NewReponseError(code int, msg string) *ResponseError {
 
 // NewNotFound creates response 404 Not Found
 func NewNotFound(msg string) *ResponseError {
-	return NewReponseError(http.StatusNotFound, msg)
+	return NewResponseError(http.StatusNotFound, msg)
 }
 
 // NewUnauthorized create a new instance of Response for 401 Unauthorized response
@@ -61,17 +61,17 @@ func NewUnauthorized(msg string) *ResponseError {
 		msg = "Requires authorization."
 	}
 
-	return NewReponseError(http.StatusUnauthorized, msg)
+	return NewResponseError(http.StatusUnauthorized, msg)
 }
 
 // NewForbidden creates response for 403
 func NewForbidden(msg string) *ResponseError {
-	return NewReponseError(http.StatusForbidden, msg)
+	return NewResponseError(http.StatusForbidden, msg)
 }
 
 // NewBadRequest creates a new Response for 400 Bad Request with the specified msg
 func NewBadRequest(msg string) *ResponseError {
-	return NewReponseError(http.StatusBadRequest, msg)
+	return NewResponseError(http.StatusBadRequest, msg)
 }
 
 // NewUnprocessable creates response 422 Unprocessable Entity
@@ -96,20 +96,20 @@ func NewAlreadyExists(field string) *ResponseError {
 
 // NewTooManyRequests respond to rate limit.
 func NewTooManyRequests(msg string) *ResponseError {
-	return NewReponseError(http.StatusTooManyRequests, msg)
+	return NewResponseError(http.StatusTooManyRequests, msg)
 }
 
 // NewInternalError creates response for internal server error
 func NewInternalError(msg string) *ResponseError {
 
-	return NewReponseError(http.StatusInternalServerError, msg)
+	return NewResponseError(http.StatusInternalServerError, msg)
 }
 
-// NewDB handles various errors returned from the model layter
-// MySQL duplicate error when inerting into uniquely constraint column;
+// NewDBError handles various errors returned from the model layer
+// MySQL duplicate error when inserting into uniquely constraint column;
 // ErrNoRows if it cannot retrieve any rows of the specified criteria;
 // `field` is used to identify which field is causing duplicate error.
-func NewDB(err error) *ResponseError {
+func NewDBError(err error) *ResponseError {
 	switch err {
 	case sql.ErrNoRows:
 		return NewNotFound("")

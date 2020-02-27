@@ -33,15 +33,15 @@ func (r *Render) EscapeHTML() *Render {
 
 // NoCache set headers to avoid caching repsonse.
 func (r *Render) NoCache() *Render {
-	r.writer.Header.Add("Cache-Control", "no-cache")
-	r.writer.Header.Add("Cache-Control", "no-store")
-	r.writer.Header.Add("Cache-Control", "must-revalidate")
-	r.writer.Header.Add("Pragma", "no-cache")
+	r.writer.Header().Add("Cache-Control", "no-cache")
+	r.writer.Header().Add("Cache-Control", "no-store")
+	r.writer.Header().Add("Cache-Control", "must-revalidate")
+	r.writer.Header().Add("Pragma", "no-cache")
 
 	return r
 }
 
-// JSON renders JSON reponse.
+// JSON renders JSON response.
 func (r *Render) JSON(code int, body interface{}) error {
 	if r.writer.Header().Get("Content-Type") == "" {
 		r.writer.Header().Set("Content-Type", "application/json; charset=utf-8")
@@ -61,19 +61,19 @@ func (r *Render) JSON(code int, body interface{}) error {
 	return enc.Encode(body)
 }
 
-// OK sends 200 OK reponse for JSON.
+// OK sends 200 OK response for JSON.
 func (r *Render) OK(body interface{}) error {
 	return r.JSON(http.StatusOK, body)
 }
 
-// NoContent send a 204 reponse.
+// NoContent send a 204 response.
 func (r *Render) NoContent() error {
 	return r.JSON(http.StatusNoContent, nil)
 }
 
 // HandleError sends reponse above 400
 func (r *Render) HandleError(re *ResponseError) error {
-	re = *ResponseError{
+	re = &ResponseError{
 		StatusCode: http.StatusInternalServerError,
 		Message:    "Internal Server Error",
 	}
@@ -102,7 +102,7 @@ func (r *Render) Unauthorized(msg string) error {
 // Forbidden sends 403 response.
 func (r *Render) Forbidden(msg string) error {
 	if msg == "" {
-		msg = "Fobidden"
+		msg = "Fobbidden"
 	}
 
 	return r.JSON(http.StatusForbidden, ResponseError{
@@ -133,8 +133,8 @@ func (r *Render) TooManyRequests(msg string) error {
 }
 
 // InternalServerError sends 500 reponse.
-func (r *Render) InternaServerError(msg string) error {
-	return r.JSON(http.StatusInternalServerError, Response{
+func (r *Render) InternalServerError(msg string) error {
+	return r.JSON(http.StatusInternalServerError, ResponseError{
 		Message: msg,
 	})
 }
@@ -146,6 +146,6 @@ func (r *Render) DBError(err error) error {
 		return r.NotFound()
 
 	default:
-		return r.InternaServerError(err.Error())
+		return r.InternalServerError(err.Error())
 	}
 }
