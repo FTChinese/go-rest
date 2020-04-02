@@ -1,31 +1,21 @@
 package postoffice
 
-import (
-	"github.com/go-mail/mail"
-)
+import "github.com/go-mail/mail"
 
 // Postman wraps mail dialer.
-type Postman struct {
+type PostOffice struct {
 	dialer *mail.Dialer
 }
 
 // NewPostman creates a new instance of PostOffice
-// Deprecate.
-func NewPostman(host string, port int, user, pass string) Postman {
-	return Postman{
-		dialer: mail.NewDialer(host, port, user, pass),
-	}
-}
-
-// NewPostman creates a new instance of PostOffice
-func New(host string, port int, user, pass string) Postman {
-	return Postman{
+func New(host string, port int, user, pass string) PostOffice {
+	return PostOffice{
 		dialer: mail.NewDialer(host, port, user, pass),
 	}
 }
 
 // Deliver asks the postman to deliver a parcel.
-func (pm Postman) Deliver(p Parcel) error {
+func (pm PostOffice) Deliver(p Parcel) error {
 	m := mail.NewMessage()
 
 	m.SetAddressHeader("From", p.FromAddress, p.FromName)
