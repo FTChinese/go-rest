@@ -20,6 +20,7 @@ const (
 	SnapshotReasonUnlink                            // Unlink FTC account from wechat accout.
 	SnapshotReasonAppleLink                         // Link FTC account to Apple IAP.
 	SnapshotReasonAppleUnlink                       // Unlink FTC account from Apple IAP.
+	SnapshotReasonB2B
 )
 
 var snapshotReasonNames = [...]string{
@@ -31,6 +32,7 @@ var snapshotReasonNames = [...]string{
 	"unlink",
 	"apple_link",
 	"apple_unlink",
+	"b2b",
 }
 
 var snapshotReasonMap = map[SnapshotReason]string{
@@ -41,6 +43,7 @@ var snapshotReasonMap = map[SnapshotReason]string{
 	SnapshotReasonUnlink:      snapshotReasonNames[5],
 	SnapshotReasonAppleLink:   snapshotReasonNames[6],
 	SnapshotReasonAppleUnlink: snapshotReasonNames[7],
+	SnapshotReasonB2B:         snapshotReasonNames[8],
 }
 
 var snapshotReasonValue = map[string]SnapshotReason{
@@ -51,6 +54,7 @@ var snapshotReasonValue = map[string]SnapshotReason{
 	snapshotReasonNames[5]: SnapshotReasonUnlink,
 	snapshotReasonNames[6]: SnapshotReasonAppleLink,
 	snapshotReasonNames[7]: SnapshotReasonAppleUnlink,
+	snapshotReasonNames[8]: SnapshotReasonB2B,
 }
 
 // ParseSnapshotReason turns a string to an instance of SnapshotReason
