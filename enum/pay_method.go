@@ -16,6 +16,7 @@ const (
 	PayMethodWx
 	PayMethodStripe
 	PayMethodApple
+	PayMethodB2B
 )
 
 var payMethodNames = [...]string{
@@ -24,6 +25,7 @@ var payMethodNames = [...]string{
 	"wechat",
 	"stripe",
 	"apple",
+	"b2b",
 }
 
 var payMethodCN = [...]string{
@@ -32,6 +34,7 @@ var payMethodCN = [...]string{
 	"微信支付",
 	"Stripe",
 	"Apple内购",
+	"B2B",
 }
 
 var payMethodEN = [...]string{
@@ -40,6 +43,7 @@ var payMethodEN = [...]string{
 	"Wechat Pay",
 	"Stripe",
 	"Apple IAP",
+	"B2B",
 }
 
 var payMethodMap = map[PayMethod]string{
@@ -47,6 +51,7 @@ var payMethodMap = map[PayMethod]string{
 	PayMethodWx:     payMethodNames[2],
 	PayMethodStripe: payMethodNames[3],
 	PayMethodApple:  payMethodNames[4],
+	PayMethodB2B:    payMethodNames[5],
 }
 
 var payMethodValue = map[string]PayMethod{
@@ -54,6 +59,7 @@ var payMethodValue = map[string]PayMethod{
 	payMethodNames[2]: PayMethodWx,
 	payMethodNames[3]: PayMethodStripe,
 	payMethodNames[4]: PayMethodApple,
+	payMethodNames[5]: PayMethodB2B,
 	"tenpay":          PayMethodWx,
 }
 
