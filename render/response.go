@@ -13,18 +13,18 @@ const (
 	// CodeMissing means a resource does not exist
 	CodeMissing InvalidCode = "missing"
 	// CodeMissingField means a required field on a resource has not been set.
-	CodeMissingField = "missing_field"
+	CodeMissingField InvalidCode = "missing_field"
 	// CodeInvalid means the formatting of a field is invalid
-	CodeInvalid = "invalid"
+	CodeInvalid InvalidCode = "invalid"
 	// CodeAlreadyExists means another resource has the same value as this field.
-	CodeAlreadyExists = "already_exists"
+	CodeAlreadyExists InvalidCode = "already_exists"
 )
 
 // ValidationError tells the field that failed validation.
 type ValidationError struct {
-	Message string `json:"-"`
-	Field   string `json:"field"`
-	Code    string `json:"code"`
+	Message string      `json:"-"`
+	Field   string      `json:"field"`
+	Code    InvalidCode `json:"code"`
 }
 
 func (e *ValidationError) Error() string {
