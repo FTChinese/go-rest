@@ -27,6 +27,16 @@ type ValidationError struct {
 	Code    InvalidCode `json:"code"`
 }
 
+// NewVEAlreadyExists creates a ValidationError for
+// MySQL unqiue key constraint failure.
+func NewVEAlreadyExists(field string) *ValidationError {
+	return &ValidationError{
+		Message: "Duplicate entry",
+		Field:   field,
+		Code:    CodeAlreadyExists,
+	}
+}
+
 func (e *ValidationError) Error() string {
 	return e.Message
 }
@@ -87,11 +97,7 @@ func NewUnprocessable(ve *ValidationError) *ResponseError {
 // NewAlreadyExists is a convenience func to handle MySQL
 // 1062 error.
 func NewAlreadyExists(field string) *ResponseError {
-	return NewUnprocessable(&ValidationError{
-		Message: "Duplicate entry",
-		Field:   field,
-		Code:    CodeAlreadyExists,
-	})
+	return NewUnprocessable(NewVEAlreadyExists(field))
 }
 
 // NewTooManyRequests respond to rate limit.
