@@ -1,16 +1,19 @@
 package postoffice
 
-import "github.com/go-mail/mail"
+import (
+	"github.com/FTChinese/go-rest/connect"
+	"github.com/go-mail/mail"
+)
 
-// Postman wraps mail dialer.
+// PostOffice wraps mail dialer.
 type PostOffice struct {
 	dialer *mail.Dialer
 }
 
-// NewPostman creates a new instance of PostOffice
-func New(host string, port int, user, pass string) PostOffice {
+// New creates a new instance of PostOffice
+func New(c connect.Connect) PostOffice {
 	return PostOffice{
-		dialer: mail.NewDialer(host, port, user, pass),
+		dialer: mail.NewDialer(c.Host, c.Port, c.User, c.Pass),
 	}
 }
 
