@@ -14,34 +14,40 @@ const (
 	TierNull Tier = iota
 	TierStandard
 	TierPremium
+	TierVIP
 )
 
 var tierNames = [...]string{
 	"",
 	"standard",
 	"premium",
+	"vip",
 }
 
 var tiersCN = [...]string{
 	"",
 	"标准会员",
 	"高级会员",
+	"VIP",
 }
 
 var tiersEN = [...]string{
 	"",
 	"Standard",
 	"Premium",
+	"VIP",
 }
 
 var tierMap = map[Tier]string{
 	1: tierNames[1],
 	2: tierNames[2],
+	3: tierNames[3],
 }
 
 var tierValue = map[string]Tier{
 	tierNames[1]: 1,
 	tierNames[2]: 2,
+	tierNames[3]: 3,
 }
 
 // ParseTier parses a string into Tier type.
