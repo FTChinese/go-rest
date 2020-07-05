@@ -69,7 +69,7 @@ func (x Tier) String() string {
 
 // StringCN output tier as Chinese text
 func (x Tier) StringCN() string {
-	if x < TierStandard || x > TierPremium {
+	if x < TierStandard || x > TierVIP {
 		return ""
 	}
 
