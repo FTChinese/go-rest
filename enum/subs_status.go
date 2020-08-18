@@ -11,7 +11,7 @@ type SubsStatus int
 
 const (
 	SubsStatusNull SubsStatus = iota
-	SubStatusActive
+	SubsStatusActive
 	SubsStatusCanceled
 	SubStatusIncomplete
 	SubsStatusIncompleteExpired
