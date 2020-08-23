@@ -10,14 +10,14 @@ import (
 type SubsStatus int
 
 const (
-	SubsStatusNull SubsStatus = iota
+	SubsStatusNull SubsStatus = iota // Invalid
 	SubsStatusActive
-	SubsStatusCanceled
-	SubStatusIncomplete
-	SubsStatusIncompleteExpired
-	SubsStatusPastDue
+	SubsStatusCanceled // Invalid
+	SubsStatusIncomplete
+	SubsStatusIncompleteExpired // Invalid
+	SubsStatusPastDue           // INvalid
 	SubsStatusTrialing
-	SubsStatusUnpaid
+	SubsStatusUnpaid // Invalid
 )
 
 var subsStatusNames = [...]string{
@@ -64,12 +64,18 @@ func ParseSubsStatus(name string) (SubsStatus, error) {
 
 // ShouldCreate checks whether membership's current status
 // should allow creation of a new membership.
+// Deprecated
 func (x SubsStatus) ShouldCreate() bool {
 	return x == SubsStatusNull ||
 		x == SubsStatusIncompleteExpired ||
 		x == SubsStatusPastDue ||
 		x == SubsStatusCanceled ||
 		x == SubsStatusUnpaid
+}
+
+// IsValid check if subscription status is in a valid state.
+func (x SubsStatus) IsValid() bool {
+	return x == SubsStatusActive || x == SubsStatusIncomplete || x == SubsStatusTrialing
 }
 
 func (x SubsStatus) String() string {
