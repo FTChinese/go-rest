@@ -17,8 +17,8 @@ func NewPagination(p, limit int64) Pagination {
 
 // Pagination is used to calculate limit and offset parameter used int sql statement.
 type Pagination struct {
-	Page  int64 `query:"page" schema:"page"`         // Which page is requesting data.
-	Limit int64 `query:"per_page" schema:"per_page"` // How many items per page.
+	Page  int64 `query:"page" schema:"page" json:"page"`          // Which page is requesting data.
+	Limit int64 `query:"per_page" schema:"per_page" json:"limit"` // How many items per page.
 }
 
 func (p *Pagination) Normalize() {
