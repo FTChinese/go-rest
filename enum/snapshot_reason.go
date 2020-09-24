@@ -22,6 +22,7 @@ const (
 	SnapshotReasonAppleUnlink                       // Unlink FTC account from Apple IAP.
 	SnapshotReasonB2B
 	SnapshotReasonManual
+	SnapshotReasonIapUpdate
 )
 
 var snapshotReasonNames = [...]string{
@@ -35,6 +36,7 @@ var snapshotReasonNames = [...]string{
 	"apple_unlink",
 	"b2b",
 	"manual",
+	"iap_update",
 }
 
 var snapshotReasonMap = map[SnapshotReason]string{
@@ -47,18 +49,20 @@ var snapshotReasonMap = map[SnapshotReason]string{
 	SnapshotReasonAppleUnlink: snapshotReasonNames[7],
 	SnapshotReasonB2B:         snapshotReasonNames[8],
 	SnapshotReasonManual:      snapshotReasonNames[9],
+	SnapshotReasonIapUpdate:   snapshotReasonNames[10],
 }
 
 var snapshotReasonValue = map[string]SnapshotReason{
-	snapshotReasonNames[1]: SnapshotReasonRenew,
-	snapshotReasonNames[2]: SnapshotReasonUpgrade,
-	snapshotReasonNames[3]: SnapshotReasonDelete,
-	snapshotReasonNames[4]: SnapshotReasonLink,
-	snapshotReasonNames[5]: SnapshotReasonUnlink,
-	snapshotReasonNames[6]: SnapshotReasonAppleLink,
-	snapshotReasonNames[7]: SnapshotReasonAppleUnlink,
-	snapshotReasonNames[8]: SnapshotReasonB2B,
-	snapshotReasonNames[9]: SnapshotReasonManual,
+	snapshotReasonNames[1]:  SnapshotReasonRenew,
+	snapshotReasonNames[2]:  SnapshotReasonUpgrade,
+	snapshotReasonNames[3]:  SnapshotReasonDelete,
+	snapshotReasonNames[4]:  SnapshotReasonLink,
+	snapshotReasonNames[5]:  SnapshotReasonUnlink,
+	snapshotReasonNames[6]:  SnapshotReasonAppleLink,
+	snapshotReasonNames[7]:  SnapshotReasonAppleUnlink,
+	snapshotReasonNames[8]:  SnapshotReasonB2B,
+	snapshotReasonNames[9]:  SnapshotReasonManual,
+	snapshotReasonNames[10]: SnapshotReasonIapUpdate,
 }
 
 // ParseSnapshotReason turns a string to an instance of SnapshotReason
