@@ -25,7 +25,7 @@ func New(w http.ResponseWriter) *Render {
 	}
 }
 
-// EscapeHTML set escapting HTML.
+// EscapeHTML set escaping HTML.
 func (r *Render) EscapeHTML() *Render {
 	r.escapeHTML = true
 	return r
@@ -39,6 +39,41 @@ func (r *Render) NoCache() *Render {
 	r.writer.Header().Add("Pragma", "no-cache")
 
 	return r
+}
+
+func (r *Render) HTML(code int, body string) error {
+	r.writer.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if body == "" || code == http.StatusNoContent {
+		r.writer.WriteHeader(code)
+		return nil
+	}
+
+	r.writer.WriteHeader(code)
+
+	_, err := r.writer.Write([]byte(body))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *Render) Text(code int, body string) error {
+	r.writer.Header().Set("Content-Type", "text/plain; charset=utf-8")
+
+	if body == "" || code == http.StatusNoContent {
+		r.writer.WriteHeader(code)
+		return nil
+	}
+
+	r.writer.WriteHeader(code)
+
+	_, err := r.writer.Write([]byte(body))
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // JSON renders JSON response.
@@ -71,7 +106,7 @@ func (r *Render) NoContent() error {
 	return r.JSON(http.StatusNoContent, nil)
 }
 
-// HandleError sends reponse above 400
+// HandleError sends response above 400
 func (r *Render) HandleError(re *ResponseError) error {
 	re = &ResponseError{
 		StatusCode: http.StatusInternalServerError,
