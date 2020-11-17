@@ -16,6 +16,7 @@ const (
 	OrderKindCreate
 	OrderKindRenew
 	OrderKindUpgrade
+	OrderKindDowngrade
 )
 
 var orderKindNames = [...]string{
@@ -23,6 +24,7 @@ var orderKindNames = [...]string{
 	"create",
 	"renew",
 	"upgrade",
+	"downgrade",
 }
 
 // String representation of OrderKind
@@ -30,6 +32,7 @@ var orderKindMap = map[OrderKind]string{
 	1: orderKindNames[1],
 	2: orderKindNames[2],
 	3: orderKindNames[3],
+	4: orderKindNames[4],
 }
 
 // Simplified Chinese version of OrderKind's string representation.
@@ -37,6 +40,7 @@ var orderKindSCMap = map[OrderKind]string{
 	1: "订阅",
 	2: "续订",
 	3: "升级订阅",
+	4: "购买标准版",
 }
 
 // Used to get OrderKind from a string.
@@ -44,6 +48,7 @@ var orderKindValue = map[string]OrderKind{
 	orderKindNames[1]: 1,
 	orderKindNames[2]: 2,
 	orderKindNames[3]: 3,
+	orderKindNames[4]: 4,
 }
 
 // ParseOrderKind creates OrderKind from a string.

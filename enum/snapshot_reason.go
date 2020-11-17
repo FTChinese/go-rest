@@ -8,6 +8,7 @@ import (
 )
 
 // SnapshotReason tells why we take a snapshot of reader's membership
+// Deprecated
 type SnapshotReason int
 
 // Enum of SnapshotReason.
