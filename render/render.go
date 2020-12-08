@@ -117,7 +117,10 @@ func (r *Render) HandleError(re *ResponseError) error {
 }
 
 // NotFound sends 404 Not Found response.
-func (r *Render) NotFound() error {
+func (r *Render) NotFound(msg string) error {
+	if msg == "" {
+		msg = "Not Found"
+	}
 	return r.JSON(http.StatusNotFound, ResponseError{
 		Message: "Not Found",
 	})
@@ -167,7 +170,7 @@ func (r *Render) TooManyRequests(msg string) error {
 	})
 }
 
-// InternalServerError sends 500 reponse.
+// InternalServerError sends 500 response.
 func (r *Render) InternalServerError(msg string) error {
 	return r.JSON(http.StatusInternalServerError, ResponseError{
 		Message: msg,
@@ -178,7 +181,7 @@ func (r *Render) InternalServerError(msg string) error {
 func (r *Render) DBError(err error) error {
 	switch err {
 	case sql.ErrNoRows:
-		return r.NotFound()
+		return r.NotFound("")
 
 	default:
 		return r.InternalServerError(err.Error())
