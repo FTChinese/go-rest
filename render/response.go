@@ -28,7 +28,7 @@ type ValidationError struct {
 }
 
 // NewVEAlreadyExists creates a ValidationError for
-// MySQL unqiue key constraint failure.
+// MySQL unique key constraint failure.
 func NewVEAlreadyExists(field string) *ValidationError {
 	return &ValidationError{
 		Message: "Duplicate entry",
