@@ -27,6 +27,7 @@ var orderKindNames = [...]string{
 	"upgrade",
 	"downgrade",
 	"add_on",
+	"switch_cycle", // This is not persisted to db.
 }
 
 // String representation of OrderKind
@@ -36,6 +37,7 @@ var orderKindMap = map[OrderKind]string{
 	3: orderKindNames[3],
 	4: orderKindNames[4],
 	5: orderKindNames[5],
+	6: orderKindNames[6],
 }
 
 // Simplified Chinese version of OrderKind's string representation.
@@ -45,6 +47,7 @@ var orderKindSCMap = map[OrderKind]string{
 	3: "升级订阅",
 	4: "购买标准版",
 	5: "补充包",
+	6: "更改订阅周期",
 }
 
 // Used to get OrderKind from a string.
@@ -54,6 +57,7 @@ var orderKindValue = map[string]OrderKind{
 	orderKindNames[3]: 3,
 	orderKindNames[4]: 4,
 	orderKindNames[5]: 5,
+	orderKindNames[6]: 6,
 }
 
 // ParseOrderKind creates OrderKind from a string.
