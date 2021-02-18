@@ -18,6 +18,7 @@ const (
 	OrderKindUpgrade
 	OrderKindDowngrade
 	OrderKindAddOn
+	OrderKindSwitchCycle
 )
 
 var orderKindNames = [...]string{
