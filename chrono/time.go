@@ -93,6 +93,13 @@ func TimeNow() Time {
 	}
 }
 
+// TimeUTCNow creates a Time instance with timezone set to UTC and truncated to second.
+func TimeUTCNow() Time {
+	return Time{
+		time.Now().Truncate(time.Second).UTC(),
+	}
+}
+
 // TimeZero creates the zero value of Time.
 func TimeZero() Time {
 	return Time{time.Time{}}
@@ -101,4 +108,10 @@ func TimeZero() Time {
 // TimeFrom creates a new Time wrapping time.Time.
 func TimeFrom(t time.Time) Time {
 	return Time{t}
+}
+
+func TimeUTCFrom(t time.Time) Time {
+	return Time{
+		t.Truncate(time.Second).UTC(),
+	}
 }
