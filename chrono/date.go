@@ -87,6 +87,12 @@ func DateNow() Date {
 	}
 }
 
+func DateUTCNow() Date {
+	return Date{
+		time.Now().UTC().Truncate(24 * time.Hour),
+	}
+}
+
 // DateZero creates the zero value of Time.
 func DateZero() Date {
 	return Date{time.Time{}}
@@ -95,4 +101,10 @@ func DateZero() Date {
 // DateFrom creates a new Time wrapping time.Time.
 func DateFrom(t time.Time) Date {
 	return Date{t.Truncate(24 * time.Hour)}
+}
+
+func DateUTCFrom(t time.Time) Date {
+	return Date{
+		t.UTC().Truncate(24 * time.Hour),
+	}
 }
