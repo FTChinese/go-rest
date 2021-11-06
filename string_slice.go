@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-// StringSlice implments Scanner and Valuer interface for a slice of strings.
+// StringSlice implements Scanner and Valuer interface for a slice of strings.
 type StringSlice []string
 
 // Scan retrieves a comma-separated string value from SQL to a Go string slice.
