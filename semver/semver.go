@@ -1,4 +1,4 @@
-package gorest
+package semver
 
 import (
 	"strconv"
@@ -12,8 +12,8 @@ type SemVer struct {
 	Patch int
 }
 
-// ParseSemVer parsed a string into to SemVer
-func ParseSemVer(v string) SemVer {
+// Parse parsed a string into to SemVer
+func Parse(v string) SemVer {
 	var parts = make([]int, 0)
 
 	for _, v := range strings.Split(v, ".") {
