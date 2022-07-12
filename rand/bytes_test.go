@@ -19,3 +19,12 @@ func TestBase64(t *testing.T) {
 
 	t.Logf("16 chars of base64: %s", s)
 }
+
+func TestBase64_36(t *testing.T) {
+	s, err := Base64(36)
+	if err != nil {
+		t.Error(err)
+	}
+
+	t.Logf("48 chars of base64: %s", s)
+}
