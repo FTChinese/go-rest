@@ -27,9 +27,9 @@ type ValidationError struct {
 	Code    InvalidCode `json:"code"`
 }
 
-// NewVEAlreadyExists creates a ValidationError for
+// InvalidAlreadyExists creates a ValidationError for
 // MySQL unique key constraint failure.
-func NewVEAlreadyExists(field string) *ValidationError {
+func InvalidAlreadyExists(field string) *ValidationError {
 	return &ValidationError{
 		Message: "Duplicate entry",
 		Field:   field,
@@ -60,13 +60,13 @@ func NewResponseError(code int, msg string) *ResponseError {
 	}
 }
 
-// NewNotFound creates response 404 Not Found
-func NewNotFound(msg string) *ResponseError {
+// ErrorNotFound creates response 404 Not Found
+func ErrorNotFound(msg string) *ResponseError {
 	return NewResponseError(http.StatusNotFound, msg)
 }
 
-// NewUnauthorized create a new instance of Response for 401 Unauthorized response
-func NewUnauthorized(msg string) *ResponseError {
+// ErrorUnauthorized create a new instance of Response for 401 Unauthorized response
+func ErrorUnauthorized(msg string) *ResponseError {
 	if msg == "" {
 		msg = "Requires authorization."
 	}
@@ -74,8 +74,8 @@ func NewUnauthorized(msg string) *ResponseError {
 	return NewResponseError(http.StatusUnauthorized, msg)
 }
 
-// NewForbidden creates response for 403
-func NewForbidden(msg string) *ResponseError {
+// ErrorForbidden creates response for 403
+func ErrorForbidden(msg string) *ResponseError {
 	return NewResponseError(http.StatusForbidden, msg)
 }
 
@@ -84,8 +84,8 @@ func NewBadRequest(msg string) *ResponseError {
 	return NewResponseError(http.StatusBadRequest, msg)
 }
 
-// NewUnprocessable creates response 422 Unprocessable Entity
-func NewUnprocessable(ve *ValidationError) *ResponseError {
+// ErrorUnprocessable creates response 422 Unprocessable Entity
+func ErrorUnprocessable(ve *ValidationError) *ResponseError {
 
 	return &ResponseError{
 		StatusCode: http.StatusUnprocessableEntity,
@@ -94,14 +94,14 @@ func NewUnprocessable(ve *ValidationError) *ResponseError {
 	}
 }
 
-// NewAlreadyExists is a convenience func to handle MySQL
+// ErrorAlreadyExists is a convenience func to handle MySQL
 // 1062 error.
-func NewAlreadyExists(field string) *ResponseError {
-	return NewUnprocessable(NewVEAlreadyExists(field))
+func ErrorAlreadyExists(field string) *ResponseError {
+	return ErrorUnprocessable(InvalidAlreadyExists(field))
 }
 
-// NewTooManyRequests respond to rate limit.
-func NewTooManyRequests(msg string) *ResponseError {
+// ErrorTooManyRequests respond to rate limit.
+func ErrorTooManyRequests(msg string) *ResponseError {
 	return NewResponseError(http.StatusTooManyRequests, msg)
 }
 
@@ -111,14 +111,14 @@ func NewInternalError(msg string) *ResponseError {
 	return NewResponseError(http.StatusInternalServerError, msg)
 }
 
-// NewDBError handles various errors returned from the model layer
+// ErrorDB handles various errors returned from the model layer
 // MySQL duplicate error when inserting into uniquely constraint column;
 // ErrNoRows if it cannot retrieve any rows of the specified criteria;
 // `field` is used to identify which field is causing duplicate error.
-func NewDBError(err error) *ResponseError {
+func ErrorDB(err error) *ResponseError {
 	switch err {
 	case sql.ErrNoRows:
-		return NewNotFound("")
+		return ErrorNotFound("")
 
 	default:
 		return NewInternalError(err.Error())
